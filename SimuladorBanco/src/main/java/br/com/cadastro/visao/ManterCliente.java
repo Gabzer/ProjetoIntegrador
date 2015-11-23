@@ -2,10 +2,13 @@ package br.com.cadastro.visao;
 
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionEvent;
 
 public class ManterCliente extends JFrame {
 
@@ -32,11 +35,19 @@ public class ManterCliente extends JFrame {
 	 */
 	public ManterCliente() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 655, 449);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
-	}
-
+		contentPane.setLayout(null);
+		
+		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				dispose();
+			}
+		});
+		btnVoltar.setBounds(275, 376, 89, 23);
+		contentPane.add(btnVoltar);
+	}	
 }

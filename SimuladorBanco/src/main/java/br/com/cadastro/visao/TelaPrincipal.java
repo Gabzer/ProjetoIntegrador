@@ -10,6 +10,12 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.BoxLayout;
+import java.awt.Component;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class TelaPrincipal extends JFrame {
 
@@ -35,13 +41,63 @@ public class TelaPrincipal extends JFrame {
 	 * Create the frame.
 	 */
 	public TelaPrincipal() {
+		setResizable(false);
 		setTitle("BEM VINDO !");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 747, 488);
+		setBounds(100, 100, 707, 416);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
+		
+		JButton btnCadastrarCliente = new JButton("Cadastrar Cliente");
+		btnCadastrarCliente.setBounds(422, 76, 209, 87);
+		btnCadastrarCliente.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManterCliente cadastraCli = new ManterCliente();
+				cadastraCli.setVisible(true);				
+			}
+		});
+		contentPane.setLayout(null);
+		contentPane.add(btnCadastrarCliente);
+		
+		JButton btnFazerEmprest = new JButton("Fazer Empréstimo");
+		btnFazerEmprest.setBounds(422, 202, 209, 87);
+		btnFazerEmprest.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		btnFazerEmprest.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ManterEmprest mantEmprest = new ManterEmprest();
+				mantEmprest.setVisible(true);
+			}
+		});
+		contentPane.add(btnFazerEmprest);
+		
+		JLabel lblEscolhaAOpo = new JLabel("Escolha a opção desejada:");
+		lblEscolhaAOpo.setBounds(249, 22, 171, 34);
+		contentPane.add(lblEscolhaAOpo);
+		
+		JLabel lblParaCadastrarDeletar = new JLabel("Para cadastrar, deletar, modificar e pesquisar clientes:");
+		lblParaCadastrarDeletar.setBounds(36, 93, 349, 52);
+		contentPane.add(lblParaCadastrarDeletar);
+		
+		JLabel lblParaRealizaoDe = new JLabel("Para realização de empréstimos e maneiras de pagamento:");
+		lblParaRealizaoDe.setBounds(36, 231, 349, 28);
+		contentPane.add(lblParaRealizaoDe);
+		
+		JButton btnSair = new JButton("Sair");
+		btnSair.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {				
+				//default icon, custom title
+		        int n = JOptionPane.showConfirmDialog(null, "Você deseja realmente sair?", "Sair", JOptionPane.YES_NO_OPTION);
+
+		        if(true){
+		            JOptionPane.showMessageDialog(null, "Até à Próxima!");
+		        }	        
+
+		        System.exit(0);
+			}
+		});
+		btnSair.setBounds(296, 353, 89, 23);
+		contentPane.add(btnSair);
 	}
 
 	public JTextPane getTextPane() {
