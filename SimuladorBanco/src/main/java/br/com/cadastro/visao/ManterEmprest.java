@@ -39,15 +39,15 @@ public class ManterEmprest extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
 		JButton btnVoltar = new JButton("Voltar");
+		btnVoltar.setBounds(321, 418, 89, 23);
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
-		btnVoltar.setBounds(321, 418, 89, 23);
+		contentPane.setLayout(null);
 		contentPane.add(btnVoltar);
 	}
 

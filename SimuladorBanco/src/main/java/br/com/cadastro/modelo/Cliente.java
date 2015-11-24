@@ -7,10 +7,12 @@ public class Cliente {
 	private String cpf;
 	private String nome;
 	private String categoria;
-	private double sal_liq;	
+	private double sal_liq;
+	private double sal30;
+	private boolean emprestFeito;
+	private double emp_feito;	
+		
 	
-	ClienteControl cc = new ClienteControl();	
-	private double sal30 = cc.calcul_trinta(sal_liq);
 	
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
@@ -25,8 +27,16 @@ public class Cliente {
 		this.sal_liq = sal_liq;
 	}
 	public void setSal30(double sal30) {
+		sal30 = sal_liq / 0.3;
 		this.sal30 = sal30;
 	}
+	public void setEmprestFeito(boolean emprestFeito) {
+		this.emprestFeito = emprestFeito;
+	}
+	public void setEmp_feito(double emp_feito) {
+		this.emp_feito = emp_feito;
+	}	
+	
 	
 	public String getCpf() {
 		return cpf;
@@ -42,6 +52,12 @@ public class Cliente {
 	}
 	public double getSal30() {
 		return sal30;
+	}
+	public boolean getEmprestFeito() {
+		return emprestFeito;
+	}
+	public double getEmp_feito() {
+		return emp_feito;
 	}
 	
 	@Override
