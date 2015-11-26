@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import br.com.cadastro.util.ConnectionFactory;
 
 public class ClienteDAO {
@@ -25,6 +27,7 @@ public class ClienteDAO {
 			ps.setString(3, cliente.getCategoria());
 			ps.setDouble(4, cliente.getSal_liq());
 			ps.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !!!");
 		}catch(Exception ex){
 			System.err.println("Erro no insert");
 			ex.printStackTrace();
@@ -63,8 +66,8 @@ public class ClienteDAO {
 	}
 		
 	//pesquiza pelo cpf
-	public Cliente selectByCpf(String cpf){
-		Cliente cliente = null;
+	public String selectByCpf(String cpf){
+		String lsClientes = null;
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -74,12 +77,13 @@ public class ClienteDAO {
 			ps = connection.prepareStatement(sql);
 			ps.setString(1, cpf);
 			rs = ps.executeQuery();
-			if (rs.next()){
-				cliente = new Cliente();
-				cliente.setCpf(rs.getString("cpf"));
-				cliente.setNome(rs.getString("nome"));
-				cliente.setCategoria(rs.getString("categoria"));
-				cliente.setSal_liq(rs.getDouble("salário líquido"));
+			while (rs.next()){
+				Cliente cli = new Cliente();
+				cli.setCpf(rs.getString("cpf"));
+				cli.setNome(rs.getString("nome"));
+				cli.setCategoria(rs.getString("categoria"));
+				cli.setSal_liq(rs.getDouble("sal_liq"));
+				lsClientes = cli.toString();
 			}
 		}catch(Exception ex){
 			System.err.println("Erro no selectByCpf");
@@ -87,30 +91,28 @@ public class ClienteDAO {
 		}finally{
 			ConnectionFactory.encerrarConexao(connection, ps, rs);
 		}
-		return cliente;
+		return lsClientes;
 	}
 	
 	//pesquiza por nome
-	public List<Cliente> selectByNome(String nome){
-		List<Cliente> lsClientes = null;
+	public String selectByNome(String nome){
+		String lsClientes = null;
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "SELECT cpf, nome, categoria, sal_liq FROM cliente "
-					+ "WHERE nome ILIKE ?";
+		String sql = "SELECT * FROM cliente WHERE nome ILIKE ?";
 		try {
 			connection = ConnectionFactory.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1, nome);
 			rs = ps.executeQuery();
-			lsClientes = new ArrayList<Cliente>();
 			while (rs.next()){
 				Cliente cli = new Cliente();
 				cli.setCpf(rs.getString("cpf"));
 				cli.setNome(rs.getString("nome"));
 				cli.setCategoria(rs.getString("categoria"));
 				cli.setSal_liq(rs.getDouble("sal_liq"));
-				lsClientes.add(cli);
+				lsClientes = cli.toString();
 			}
 		}catch(Exception ex){
 			System.err.println("Erro no selectByNome");
@@ -134,6 +136,7 @@ public class ClienteDAO {
 			ps.setDouble(3, cliente.getSal_liq());
 			ps.setString(4, cliente.getCpf());
 			ps.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Modificado com sucesso !!!");
 		}catch(Exception ex){
 			System.err.println("Erro no updateByCpf");
 			ex.printStackTrace();
@@ -152,6 +155,7 @@ public class ClienteDAO {
 			ps = connection.prepareStatement(sql);
 			ps.setString(1, cpf);
 			ps.executeUpdate();
+			JOptionPane.showMessageDialog(null, "Exclusão realizada !!!");
 		}catch(Exception ex){
 			System.err.println("Erro no deleteByCpf");
 			ex.printStackTrace();

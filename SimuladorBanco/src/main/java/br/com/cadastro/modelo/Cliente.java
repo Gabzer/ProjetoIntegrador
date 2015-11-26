@@ -62,7 +62,9 @@ public class Cliente {
 	
 	@Override
 	public String toString() {
-		return "Cliente [cpf=" + cpf + ", nome=" + nome + ", categoria="
-				+ categoria + ", sal_liq=" + sal_liq + "]";
+		return cpf + "," + nome + ","
+				+ categoria + "," + sal_liq;
 	}	
+	
+	
 }
