@@ -7,7 +7,7 @@ public class Cliente {
 	private String cpf;
 	private String nome;
 	private String categoria;
-	private double sal_liq;
+	private static double sal_liq;
 	private double sal30;
 	private boolean emprestFeito;
 	private double emp_feito;	
@@ -27,7 +27,7 @@ public class Cliente {
 		this.sal_liq = sal_liq;
 	}
 	public void setSal30(double sal30) {
-		sal30 = sal_liq / 0.3;
+		sal30 = sal_liq * 0.3;
 		this.sal30 = sal30;
 	}
 	public void setEmprestFeito(boolean emprestFeito) {
@@ -47,7 +47,7 @@ public class Cliente {
 	public String getCategoria() {
 		return categoria;
 	}
-	public double getSal_liq() {
+	public static double getSal_liq() {
 		return sal_liq;
 	}
 	public double getSal30() {
@@ -63,7 +63,7 @@ public class Cliente {
 	@Override
 	public String toString() {
 		return cpf + "," + nome + ","
-				+ categoria + "," + sal_liq;
+				+ categoria + "," + sal_liq + "," + sal30;
 	}	
 	
 	

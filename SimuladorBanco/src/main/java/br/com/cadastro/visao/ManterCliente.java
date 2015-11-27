@@ -1,7 +1,6 @@
 package br.com.cadastro.visao;
 
 import java.awt.EventQueue;
-import java.awt.List;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -25,7 +24,7 @@ public class ManterCliente extends JFrame {
 	private JTextField boxNome;
 	private JTextField boxCpf;
 	private JTextField boxSal_liq;
-	private JTextField textField_3;
+	private JTextField boxMargem;
 	private JTextField boxValorEmprest;
 	private JTextField boxCategoria;
 
@@ -61,6 +60,7 @@ public class ManterCliente extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
+		//botão VOLTAR
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -79,7 +79,7 @@ public class ManterCliente extends JFrame {
 		boxCpf = new JTextField();		
 		boxCpf.setBounds(48, 74, 197, 20);
 		contentPane.add(boxCpf);
-		boxCpf.setColumns(10);		
+		boxCpf.setColumns(10);	
 		
 		//PESQUISA pelo CPF		
 		JButton btnPesqCpf = new JButton("Pesquisar");
@@ -93,7 +93,8 @@ public class ManterCliente extends JFrame {
 				boxCpf.setText(dados[0]);
 				boxNome.setText(dados[1]);
 				boxCategoria.setText(dados[2]);
-				boxSal_liq.setText(dados[3]);				
+				boxSal_liq.setText(dados[3]);
+				boxMargem.setText(dados[4]);
 			}
 		});
 		btnPesqCpf.setBounds(255, 74, 89, 23);
@@ -115,7 +116,7 @@ public class ManterCliente extends JFrame {
 		btnPesqNome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {				
 				String lsCli = cliDao.selectByNome(boxNome.getText());
-				String[] dados;
+				String[] dados;				
 				
 				dados = lsCli.split(",");				
 				
@@ -123,6 +124,7 @@ public class ManterCliente extends JFrame {
 				boxNome.setText(dados[1]);
 				boxCategoria.setText(dados[2]);
 				boxSal_liq.setText(dados[3]);
+				boxMargem.setText(dados[4]);
 			}
 		});
 		btnPesqNome.setBounds(521, 42, 89, 23);
@@ -155,16 +157,11 @@ public class ManterCliente extends JFrame {
 		contentPane.add(lblMargem);
 		
 		//caixa de texto não editável da Margem
-		textField_3 = new JTextField();
-		textField_3.addPropertyChangeListener(new PropertyChangeListener() {
-			public void propertyChange(PropertyChangeEvent arg0) {
-				System.out.println(cliente.getSal30());
-			}
-		});
-		textField_3.setEditable(false);
-		textField_3.setBounds(371, 222, 239, 20);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);		
+		boxMargem = new JTextField();
+		boxMargem.setBounds(371, 222, 239, 20);
+		contentPane.add(boxMargem);
+		boxMargem.setColumns(10);
+		boxMargem.setText("" + cliente.getSal30());
 		
 		JLabel lblSeOMesmo = new JLabel("*Se o mesmo já possui empréstimos, \n"
 				+ "\n aparecerá a margem RESTANTE no campo.");
@@ -214,9 +211,16 @@ public class ManterCliente extends JFrame {
 				cliente.setCpf(boxCpf.getText());
 				cliente.setNome(boxNome.getText());				
 				cliente.setCategoria(boxCategoria.getText());					
-				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));				
+				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
+				cliente.setSal30(Double.parseDouble(boxMargem.getText()));
 				
 				cliDao.insert(cliente);
+				
+				boxCpf.setText("");
+				boxNome.setText("");
+				boxSal_liq.setText("");
+				boxCategoria.setText("");
+				boxMargem.setText("");
 			}
 		});
 		btnCadastrarCli.setBounds(162, 328, 101, 23);
@@ -226,7 +230,13 @@ public class ManterCliente extends JFrame {
 		JButton btnExcluirCli = new JButton("Excluir");
 		btnExcluirCli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cliDao.deleteByCpf(cliente.getCpf());
+				cliDao.deleteByCpf(boxCpf.getText());
+				
+				boxCpf.setText("");
+				boxNome.setText("");
+				boxSal_liq.setText("");
+				boxCategoria.setText("");
+				boxMargem.setText("");
 			}
 		});
 		btnExcluirCli.setBounds(381, 328, 89, 23);
@@ -236,15 +246,34 @@ public class ManterCliente extends JFrame {
 		JButton btnAlterarCli = new JButton("Alterar");
 		btnAlterarCli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				cliente.setCpf(boxCpf.getText());
 				cliente.setNome(boxNome.getText());				
 				cliente.setCategoria(boxCategoria.getText());				
 				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
+				cliente.setSal30(Double.parseDouble(boxMargem.getText()));
 				
 				cliDao.updateByCpf(cliente);
+				
+				boxCpf.setText("");
+				boxNome.setText("");
+				boxSal_liq.setText("");
+				boxCategoria.setText("");
+				boxMargem.setText("");
 			}
 		});
 		btnAlterarCli.setBounds(275, 328, 89, 23);
 		contentPane.add(btnAlterarCli);
+		
+		//botão Listar Clientes
+		JButton btnListCli = new JButton("Listar Clientes");
+		btnListCli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ListarClientes listCli = new ListarClientes();
+				listCli.setVisible(true);
+			}
+		});
+		btnListCli.setBounds(381, 73, 229, 23);
+		contentPane.add(btnListCli);
 		
 		
 	}

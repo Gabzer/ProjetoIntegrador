@@ -17,8 +17,8 @@ public class ClienteDAO {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		
-		String sql = "INSERT INTO cliente (cpf, nome, categoria, sal_liq) "
-                  + "VALUES (?, ?, ?, ?)";
+		String sql = "INSERT INTO cliente (cpf, nome, categoria, sal_liq, margem) "
+                  + "VALUES (?, ?, ?, ?, ?)";
 		try {
 			connection = ConnectionFactory.getConnection();
 			ps = connection.prepareStatement(sql);
@@ -26,6 +26,7 @@ public class ClienteDAO {
 			ps.setString(2, cliente.getNome());
 			ps.setString(3, cliente.getCategoria());
 			ps.setDouble(4, cliente.getSal_liq());
+			ps.setDouble(5, cliente.getSal30());
 			ps.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !!!");
 		}catch(Exception ex){
@@ -42,7 +43,7 @@ public class ClienteDAO {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		String sql = "SELECT cpf, nome, categoria, sal_liq FROM cliente";
+		String sql = "SELECT cpf, nome, categoria, sal_liq, margem FROM cliente";
 		try {
 			connection = ConnectionFactory.getConnection();
 			ps = connection.prepareStatement(sql);
@@ -54,13 +55,15 @@ public class ClienteDAO {
 				cli.setNome(rs.getString("nome"));
 				cli.setCategoria(rs.getString("categoria"));
 				cli.setSal_liq(rs.getDouble("sal_liq"));
-				lsClis.add(cli);
+				cli.setSal30(rs.getDouble("margem"));
+				lsClis.add(cli);				
 			}
 		}catch(Exception ex){
 			System.err.println("Erro no selectAll");
 			ex.printStackTrace();
 		}finally{
 			ConnectionFactory.encerrarConexao(connection, ps, rs);
+			
 		}
 		return lsClis;
 	}
@@ -83,6 +86,7 @@ public class ClienteDAO {
 				cli.setNome(rs.getString("nome"));
 				cli.setCategoria(rs.getString("categoria"));
 				cli.setSal_liq(rs.getDouble("sal_liq"));
+				cli.setSal30(rs.getDouble("margem"));
 				lsClientes = cli.toString();
 			}
 		}catch(Exception ex){
@@ -112,6 +116,7 @@ public class ClienteDAO {
 				cli.setNome(rs.getString("nome"));
 				cli.setCategoria(rs.getString("categoria"));
 				cli.setSal_liq(rs.getDouble("sal_liq"));
+				cli.setSal30(rs.getDouble("margem"));
 				lsClientes = cli.toString();
 			}
 		}catch(Exception ex){
@@ -127,14 +132,15 @@ public class ClienteDAO {
 	public void updateByCpf(Cliente cliente){
 		Connection connection = null;
 		PreparedStatement ps = null;
-		String sql = "UPDATE cliente SET nome = ?, categoria = ?, sal_liq = ? WHERE cpf = ?";
+		String sql = "UPDATE cliente SET nome = ?, categoria = ?, sal_liq = ?, margem = ? WHERE cpf = ?";
 		try {
 			connection = ConnectionFactory.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setString(1, cliente.getNome());
 			ps.setString(2, cliente.getCategoria());
 			ps.setDouble(3, cliente.getSal_liq());
-			ps.setString(4, cliente.getCpf());
+			ps.setDouble(4, cliente.getSal30());
+			ps.setString(5, cliente.getCpf());
 			ps.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Modificado com sucesso !!!");
 		}catch(Exception ex){
@@ -149,7 +155,7 @@ public class ClienteDAO {
 	public void deleteByCpf(String cpf){
 		Connection connection = null;
 		PreparedStatement ps = null;
-		String sql = "DELETE FROM cliente WHERE codigo = ?";
+		String sql = "DELETE FROM cliente WHERE cpf = ?";
 		try {
 			connection = ConnectionFactory.getConnection();
 			ps = connection.prepareStatement(sql);

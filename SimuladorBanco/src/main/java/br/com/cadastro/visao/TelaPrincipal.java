@@ -50,7 +50,7 @@ public class TelaPrincipal extends JFrame {
 		setContentPane(contentPane);
 		
 		JButton btnCadastrarCliente = new JButton("Cadastrar Cliente");
-		btnCadastrarCliente.setBounds(422, 76, 209, 87);
+		btnCadastrarCliente.setBounds(422, 76, 209, 64);
 		btnCadastrarCliente.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				ManterCliente cadastraCli = new ManterCliente();
@@ -61,7 +61,7 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(btnCadastrarCliente);
 		
 		JButton btnFazerEmprest = new JButton("Fazer Empréstimo");
-		btnFazerEmprest.setBounds(422, 202, 209, 87);
+		btnFazerEmprest.setBounds(422, 157, 209, 64);
 		btnFazerEmprest.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		btnFazerEmprest.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -76,11 +76,11 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(lblEscolhaAOpo);
 		
 		JLabel lblParaCadastrarDeletar = new JLabel("Para cadastrar, deletar, modificar e pesquisar clientes:");
-		lblParaCadastrarDeletar.setBounds(36, 93, 349, 52);
+		lblParaCadastrarDeletar.setBounds(36, 82, 349, 52);
 		contentPane.add(lblParaCadastrarDeletar);
 		
 		JLabel lblParaRealizaoDe = new JLabel("Para realização de empréstimos e maneiras de pagamento:");
-		lblParaRealizaoDe.setBounds(36, 231, 349, 28);
+		lblParaRealizaoDe.setBounds(36, 175, 349, 28);
 		contentPane.add(lblParaRealizaoDe);
 		
 		JButton btnSair = new JButton("Sair");
@@ -98,6 +98,16 @@ public class TelaPrincipal extends JFrame {
 		});
 		btnSair.setBounds(296, 353, 89, 23);
 		contentPane.add(btnSair);
+		
+		JButton btnListarClientesCadastrados = new JButton("Listar Clientes Cadastrados");
+		btnListarClientesCadastrados.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListarClientes listCli = new ListarClientes();
+				listCli.setVisible(true);
+			}
+		});
+		btnListarClientesCadastrados.setBounds(178, 260, 324, 64);
+		contentPane.add(btnListarClientesCadastrados);
 	}
 
 	public JTextPane getTextPane() {
