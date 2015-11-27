@@ -205,7 +205,16 @@ public class ManterEmprest extends JFrame {
 		btnSimular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				emprestControl.setSalDev(Double.parseDouble(boxValorEmprest.getText()));
-				emprestControl.setNumParcela((int) comboBoxQtdeParcelas.getSelectedItem());
+				emprestControl.setNumParcela(Integer.parseInt((String) comboBoxQtdeParcelas.getSelectedItem()));
+				if (comboBoxSacOuPrice.getSelectedItem() == "Sac"){
+					Sac sac = new Sac();
+					sac.setVisible(true);
+				}else{
+					if(comboBoxSacOuPrice.getSelectedItem() == "Price"){
+						Price price = new Price();
+						price.setVisible(true);
+					}
+				}
 			}
 		});		
 		btnSimular.setBounds(281, 285, 127, 31);

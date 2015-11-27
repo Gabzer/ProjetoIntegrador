@@ -20,7 +20,6 @@ import br.com.cadastro.modelo.Cliente;
 
 public class Price extends JFrame {
 
-	private JPanel contentPane;
 	private static final long serialVersionUID = 1L;
 
 	/**
@@ -67,7 +66,6 @@ public class Price extends JFrame {
 	}
 	//Instanciando os objetos
 		EmprestControl emprestControl 	= new EmprestControl();
-		Operacao operacao 	= new Operacao();
 		NumberFormat x 		= NumberFormat.getCurrencyInstance();
 		Cliente cliente 	= new Cliente();
 
@@ -82,30 +80,30 @@ public class Price extends JFrame {
 		public void setValTablePrice() {
 	        String[] nomeCol;
 	        nomeCol = new String[]{"Mês", "Prestação", "Amortização", "Juros", "Saldo Devedor"};
-	        Object[][] valor = new Object[operacao.getNumParcela()][5];
+	        Object[][] valor = new Object[emprestControl.getNumParcela()][5];
 
 	        //SetarMesesTabela
-	        for (int i = 0; i < operacao.getNumParcela(); i++) {
+	        for (int i = 0; i < emprestControl.getNumParcela(); i++) {
 	            valor[i][0] = i + 1;
 	        }
 	        //--------------------//
 
-	        for (int i = 0; i < operacao.getNumParcela(); i++) {
-	            valor[i][1] = x.format(EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela()));
-	            pmt = EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela());
+	        for (int i = 0; i < emprestControl.getNumParcela(); i++) {
+	            valor[i][1] = x.format(EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela()));
+	            pmt = EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela());
 	        }
 	        
-	        for (int i = 0; i < operacao.getNumParcela(); i++) {
+	        for (int i = 0; i < emprestControl.getNumParcela(); i++) {
 	            if (i <= 0) {
-	                valor[i][3] = x.format(EmprestControl.calcJurosPrice(operacao.getValor(), emprestControl.getJuros()));
-	                valor[i][2] = x.format(EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela()), EmprestControl.calcJurosPrice(operacao.getValor(), emprestControl.getJuros())));
-	                valor[i][4] = x.format(EmprestControl.calcSalDevPrice(operacao.getValor(), EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela()), EmprestControl.calcJurosPrice(operacao.getValor(), emprestControl.getJuros()))));
-	                salDevAttPrice = (float) EmprestControl.calcSalDevPrice(operacao.getValor(), EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela()), EmprestControl.calcJurosPrice(operacao.getValor(), emprestControl.getJuros())));       
+	                valor[i][3] = x.format(EmprestControl.calcJurosPrice(emprestControl.getSalDev(), emprestControl.getJuros()));
+	                valor[i][2] = x.format(EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela()), EmprestControl.calcJurosPrice(emprestControl.getSalDev(), emprestControl.getJuros())));
+	                valor[i][4] = x.format(EmprestControl.calcSalDevPrice(emprestControl.getSalDev(), EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela()), EmprestControl.calcJurosPrice(emprestControl.getSalDev(), emprestControl.getJuros()))));
+	                salDevAttPrice = (float) EmprestControl.calcSalDevPrice(emprestControl.getSalDev(), EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela()), EmprestControl.calcJurosPrice(emprestControl.getSalDev(), emprestControl.getJuros())));       
 	            } else {
 	                valor[i][3] 	= x.format(EmprestControl.calcJurosPrice(salDevAttPrice, emprestControl.getJuros()));
-	                valor[i][2] 	= x.format(EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela()), EmprestControl.calcJurosPrice(salDevAttPrice, emprestControl.getJuros())));
-	                valor[i][4] 	= x.format(EmprestControl.calcSalDevPrice(salDevAttPrice, EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela()), EmprestControl.calcJurosPrice(salDevAttPrice, emprestControl.getJuros()))));
-	                salDevAttPrice 	= (float) EmprestControl.calcSalDevPrice(salDevAttPrice, EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(operacao.getValor(), emprestControl.getJuros(), operacao.getNumParcela()), EmprestControl.calcJurosPrice(salDevAttPrice, emprestControl.getJuros())));       
+	                valor[i][2] 	= x.format(EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela()), EmprestControl.calcJurosPrice(salDevAttPrice, emprestControl.getJuros())));
+	                valor[i][4] 	= x.format(EmprestControl.calcSalDevPrice(salDevAttPrice, EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela()), EmprestControl.calcJurosPrice(salDevAttPrice, emprestControl.getJuros()))));
+	                salDevAttPrice 	= (float) EmprestControl.calcSalDevPrice(salDevAttPrice, EmprestControl.calcAmortPrice(EmprestControl.calcPricePMT(emprestControl.getSalDev(), emprestControl.getJuros(), emprestControl.getNumParcela()), EmprestControl.calcJurosPrice(salDevAttPrice, emprestControl.getJuros())));       
 	                if(salDevAttPrice <= 0){
 	                    valor[i][4] = x.format(0.00);
 	                }	

@@ -5,7 +5,7 @@ public class EmprestControl {
 	private static double salDev;
 	private static double amort;
 	private static int numParcela;
-	public static final double juros = 0.05;
+	public static double juros = 0.05;
 	private static int mes;
 	
 	//Construtor da classe

@@ -21,6 +21,7 @@ import br.com.cadastro.modelo.Cliente;
 public class Sac extends JFrame {
 
 	private JPanel contentPane;
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Launch the application.
@@ -68,7 +69,6 @@ public class Sac extends JFrame {
 	}
 ////OBJETOS INSTANCIADOS PARA USO NESTA CLASSE
 	EmprestControl emprestcontrol	= new EmprestControl();
-	Operacao operacao 	= new Operacao();
 	NumberFormat x 		= NumberFormat.getCurrencyInstance();
 		
 	private JTable jTableSAC1;
@@ -80,40 +80,40 @@ public class Sac extends JFrame {
 	
 	public void setValTableSAC() {
 		 
-		emprestcontrol.setSalDev(operacao.getValor());
+		emprestcontrol.setSalDev(emprestcontrol.getSalDev());
 		 
 		String[] nomeColunas;
 	    nomeColunas = new String[]{"Mês", "Prestações", "Amortização", "Juros", "Saldo Devedor"};
-	    Object[][] data = new Object[operacao.getNumParcela()][5];
+	    Object[][] data = new Object[emprestcontrol.getNumParcela()][5];
 
 	    ////Inserir meses
-	    for (int i = 0; i < operacao.getNumParcela(); i++) {
+	    for (int i = 0; i < emprestcontrol.getNumParcela(); i++) {
 	    	data[i][0] = i + 1;
 	    }
 	        
 	    /////////////////////////////////////////////////////////////////////
 
 	    ////Inserir a amortização
-	    for (int i = 0; i < operacao.getNumParcela(); i++) {
-	        data[i][2] = x.format(EmprestControl.calcAmortSac(operacao.getNumParcela(), operacao.getValor()));
+	    for (int i = 0; i < emprestcontrol.getNumParcela(); i++) {
+	        data[i][2] = x.format(EmprestControl.calcAmortSac(emprestcontrol.getNumParcela(), emprestcontrol.getSalDev()));
 	    }
 	    
 	    /////////////////////////////////////////////////////////////////////    
 
 	    ////Inserir o juros
-	    for (int i = 0; i < operacao.getNumParcela(); i++) {
+	    for (int i = 0; i < emprestcontrol.getNumParcela(); i++) {
 	        if (i <= 0) {
 	            	
-	        	salDevAtt =  EmprestControl.calcSalDevSac(emprestcontrol.getSalDev(), EmprestControl.calcAmortSac(operacao.getNumParcela(), operacao.getValor()));
+	        	salDevAtt =  EmprestControl.calcSalDevSac(emprestcontrol.getSalDev(), EmprestControl.calcAmortSac(emprestcontrol.getNumParcela(), emprestcontrol.getSalDev()));
 	            data[i][4] = x.format(salDevAtt);
 	            data[i][3] = x.format(EmprestControl.calcJurosSac(emprestcontrol.getSalDev(), emprestcontrol.getJuros()));
-	            data[i][1] = x.format(EmprestControl.calcSacPMT(EmprestControl.calcAmortSac(operacao.getNumParcela(), operacao.getValor()), EmprestControl.calcJurosSac(emprestcontrol.getSalDev(), emprestcontrol.getJuros())));
-	            pmt = (float) EmprestControl.calcSacPMT(EmprestControl.calcAmortSac(operacao.getNumParcela(), operacao.getValor()), EmprestControl.calcJurosSac(emprestcontrol.getSalDev(), emprestcontrol.getJuros()));
+	            data[i][1] = x.format(EmprestControl.calcSacPMT(EmprestControl.calcAmortSac(emprestcontrol.getNumParcela(), emprestcontrol.getSalDev()), EmprestControl.calcJurosSac(emprestcontrol.getSalDev(), emprestcontrol.getJuros())));
+	            pmt = (float) EmprestControl.calcSacPMT(EmprestControl.calcAmortSac(emprestcontrol.getNumParcela(), emprestcontrol.getSalDev()), EmprestControl.calcJurosSac(emprestcontrol.getSalDev(), emprestcontrol.getJuros()));
 	            
 	        } else {
 	            data[i][3] = x.format(EmprestControl.calcJurosSac(salDevAtt, emprestcontrol.getJuros()));
-	            data[i][1] = x.format(EmprestControl.calcSacPMT(EmprestControl.calcAmortSac(operacao.getNumParcela(), operacao.getValor()), EmprestControl.calcJurosSac(salDevAtt, emprestcontrol.getJuros())));
-	            salDevAtt =  EmprestControl.calcSalDevSac(salDevAtt, EmprestControl.calcAmortSac(operacao.getNumParcela(), operacao.getValor()));
+	            data[i][1] = x.format(EmprestControl.calcSacPMT(EmprestControl.calcAmortSac(emprestcontrol.getNumParcela(), emprestcontrol.getSalDev()), EmprestControl.calcJurosSac(salDevAtt, emprestcontrol.getJuros())));
+	            salDevAtt =  EmprestControl.calcSalDevSac(salDevAtt, EmprestControl.calcAmortSac(emprestcontrol.getNumParcela(), emprestcontrol.getSalDev()));
 	            if (salDevAtt >= 0) {
 	            	data[i][4] = x.format(salDevAtt);
 	            } else {
