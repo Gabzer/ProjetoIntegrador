@@ -98,16 +98,6 @@ public class TelaPrincipal extends JFrame {
 		});
 		btnSair.setBounds(296, 353, 89, 23);
 		contentPane.add(btnSair);
-		
-		JButton btnListarClientesCadastrados = new JButton("Listar Clientes Cadastrados");
-		btnListarClientesCadastrados.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ListarClientes listCli = new ListarClientes();
-				listCli.setVisible(true);
-			}
-		});
-		btnListarClientesCadastrados.setBounds(178, 260, 324, 64);
-		contentPane.add(btnListarClientesCadastrados);
 	}
 
 	public JTextPane getTextPane() {

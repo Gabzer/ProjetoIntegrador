@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.cadastro.controle.EmprestControl;
+import br.com.cadastro.modelo.Cliente;
 import br.com.cadastro.modelo.ClienteDAO;
+import br.com.cadastro.modelo.Emprestimo;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -51,6 +53,11 @@ public class ManterEmprest extends JFrame {
 	 * Create the frame.
 	 */
 	public ManterEmprest() {
+		Emprestimo emprest = new Emprestimo();
+		Cliente cli = new Cliente();
+		ClienteDAO cliDao = new ClienteDAO();
+		EmprestControl emprestControl = new EmprestControl();
+		
 		setTitle("Empréstimo");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 722, 441);
@@ -58,6 +65,7 @@ public class ManterEmprest extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
+		//btn VOLTAR
 		JButton btnVoltar = new JButton("Voltar");
 		btnVoltar.setBounds(304, 365, 89, 23);
 		btnVoltar.addActionListener(new ActionListener() {
@@ -67,16 +75,6 @@ public class ManterEmprest extends JFrame {
 		});
 		contentPane.setLayout(null);
 		contentPane.add(btnVoltar);
-		
-		JButton btnListarClientes = new JButton("Listar Clientes");
-		btnListarClientes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ListarClientes listCli = new ListarClientes();
-				listCli.setVisible(true);
-			}
-		});
-		btnListarClientes.setBounds(489, 57, 188, 73);
-		contentPane.add(btnListarClientes);
 		
 		//cliente
 		JLabel lblCliente = new JLabel("Cliente:");
@@ -93,7 +91,7 @@ public class ManterEmprest extends JFrame {
 		JButton btnPesquisarNome = new JButton("Pesquisar");
 		btnPesquisarNome.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ClienteDAO cliDao = new ClienteDAO();
+				
 				
 				String lsCli = cliDao.selectByNome(boxNomecli.getText());
 				String[] dados;
@@ -139,7 +137,7 @@ public class ManterEmprest extends JFrame {
 		lblSalrio.setBounds(237, 88, 46, 14);
 		contentPane.add(lblSalrio);
 		
-//////////caixa SALÁRIO
+		//caixa SALÁRIO
 		boxSalcli = new JTextField();
 		boxSalcli.setEditable(false);
 		boxSalcli.setBounds(281, 85, 164, 20);
@@ -175,7 +173,6 @@ public class ManterEmprest extends JFrame {
 		contentPane.add(lblQuantidadeDeParcelas);
 		
 		//combo box de quantidade de PARCELAS
-		EmprestControl emprestControl = new EmprestControl();
 		JComboBox comboBoxQtdeParcelas = new JComboBox();
 		comboBoxQtdeParcelas.setModel(new DefaultComboBoxModel(new String[] {"6", "12", "24", "36", "48", "56"}));
 		comboBoxQtdeParcelas.setBounds(182, 234, 164, 20);
@@ -204,8 +201,19 @@ public class ManterEmprest extends JFrame {
 		JButton btnSimular = new JButton("Simular");
 		btnSimular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				cli.setNome(boxNomecli.getText());
+				cli.setCpf(boxCpfcli.getText());
+				cli.setCategoria(boxCatcli.getText());
+				cli.setSal_liq(Double.parseDouble(boxSalcli.getText()));
+				cli.setSal30(Double.parseDouble(boxMargemcli.getText()));
+				
+				emprest.setVl_emprest(Double.parseDouble(boxValorEmprest.getText()));									
+				emprest.setQtde_parcela(Integer.parseInt((String) (comboBoxQtdeParcelas.getSelectedItem())));					
+				emprest.setTpTab((String) comboBoxSacOuPrice.getSelectedItem());
+				
 				emprestControl.setSalDev(Double.parseDouble(boxValorEmprest.getText()));
 				emprestControl.setNumParcela(Integer.parseInt((String) comboBoxQtdeParcelas.getSelectedItem()));
+					
 				if (comboBoxSacOuPrice.getSelectedItem() == "Sac"){
 					Sac sac = new Sac();
 					sac.setVisible(true);

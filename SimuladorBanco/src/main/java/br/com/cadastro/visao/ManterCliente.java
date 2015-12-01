@@ -17,6 +17,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeEvent;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class ManterCliente extends JFrame {
 
@@ -26,7 +28,8 @@ public class ManterCliente extends JFrame {
 	private JTextField boxSal_liq;
 	private JTextField boxMargem;
 	private JTextField boxValorEmprest;
-	private JTextField boxCategoria;
+	private JComboBox<String> boxCategoria;
+	
 
 	/**
 	 * Launch the application.
@@ -92,7 +95,7 @@ public class ManterCliente extends JFrame {
 				
 				boxCpf.setText(dados[0]);
 				boxNome.setText(dados[1]);
-				boxCategoria.setText(dados[2]);
+				boxCategoria.setSelectedItem(dados[2]);	
 				boxSal_liq.setText(dados[3]);
 				boxMargem.setText(dados[4]);
 			}
@@ -122,7 +125,7 @@ public class ManterCliente extends JFrame {
 				
 				boxCpf.setText(dados[0]);
 				boxNome.setText(dados[1]);
-				boxCategoria.setText(dados[2]);
+				boxCategoria.setSelectedItem(dados[2]);				
 				boxSal_liq.setText(dados[3]);
 				boxMargem.setText(dados[4]);
 			}
@@ -130,63 +133,85 @@ public class ManterCliente extends JFrame {
 		btnPesqNome.setBounds(521, 42, 89, 23);
 		contentPane.add(btnPesqNome);
 					
-		
+		//label Categoria
 		JLabel lblCategoria = new JLabel("Categoria:");
 		lblCategoria.setBounds(10, 131, 78, 14);
 		contentPane.add(lblCategoria);
 		
-		//caixa de texto CATEGORIA
-		boxCategoria = new JTextField();
-		boxCategoria.setBounds(108, 128, 236, 20);
+		//combobox Categoria
+		boxCategoria = new JComboBox<String>();
+		boxCategoria.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){				
+				if(boxCategoria.getSelectedItem().toString().equals("Aposentado")){
+					cliente.setCategoria("Aposentado");
+				}else{
+					if(boxCategoria.getSelectedItem().toString().equals("Pensionista")){
+						cliente.setCategoria("Pensionista");
+					}else{
+						if(boxCategoria.getSelectedItem().toString().equals("Funcionário Público")){
+							cliente.setCategoria("Funcionário Público");
+						}
+					}
+				}
+			}
+		});
+		boxCategoria.setBounds(98, 128, 246, 20);
+		boxCategoria.addItem("Aposentado");
+		boxCategoria.addItem("Pensionista");
+		boxCategoria.addItem("Funcionário Público");
 		contentPane.add(boxCategoria);
-		boxCategoria.setColumns(10);
-				
 		
+		//label Sal_Liq
 		JLabel lblSalrioLquido = new JLabel("Salário Líquido:");		
 		lblSalrioLquido.setBounds(10, 199, 97, 14);
 		contentPane.add(lblSalrioLquido);
 		
 		//caixa de texto Sal_liq
 		boxSal_liq = new JTextField();		
+		boxSal_liq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
+			}
+		});
 		boxSal_liq.setBounds(96, 197, 137, 20);
 		contentPane.add(boxSal_liq);		
 		boxSal_liq.setColumns(10);
 		
+		//label MARGEM
 		JLabel lblMargem = new JLabel("Margem*:");
 		lblMargem.setBounds(285, 225, 61, 14);
 		contentPane.add(lblMargem);
 		
 		//caixa de texto não editável da Margem
 		boxMargem = new JTextField();
+		boxMargem.addPropertyChangeListener(new PropertyChangeListener() {
+			public void propertyChange(PropertyChangeEvent arg0) {
+				boxMargem.setText("" + cliente.getSal30());
+			}
+		});
+		boxMargem.setEditable(false);		
 		boxMargem.setBounds(371, 222, 239, 20);
 		contentPane.add(boxMargem);
 		boxMargem.setColumns(10);
-		boxMargem.setText("" + cliente.getSal30());
+		
 		
 		JLabel lblSeOMesmo = new JLabel("*Se o mesmo já possui empréstimos, \n"
 				+ "\n aparecerá a margem RESTANTE no campo.");
 		lblSeOMesmo.setBounds(288, 250, 325, 55);
 		contentPane.add(lblSeOMesmo);	
 		
+		//label 
 		JLabel lblOMesmoJ = new JLabel("Já possui empréstimo ?");
 		lblOMesmoJ.setBounds(10, 238, 118, 14);
 		contentPane.add(lblOMesmoJ);
 		
-		//opção se ele TEM empréstimo
-		JRadioButton rdbtnSim = new JRadioButton("Sim");
-		rdbtnSim.setBounds(162, 234, 71, 23);
-		contentPane.add(rdbtnSim);
+		//resposta SIM ou NÃO
+		JComboBox comboBoxSouN = new JComboBox();
+		comboBoxSouN.setModel(new DefaultComboBoxModel(new String[] {"Sim", "Não"}));
+		comboBoxSouN.setBounds(138, 235, 95, 20);
+		contentPane.add(comboBoxSouN);
 		
-		JRadioButton rdbtnNo = new JRadioButton("Não");
-		rdbtnNo.setBounds(162, 262, 71, 23);
-		contentPane.add(rdbtnNo);
-		
-		if(rdbtnSim.isSelected()){
-			cliente.setEmprestFeito(true);
-		}else{
-			cliente.setEmprestFeito(false);
-		}
-		
+		//pergunta sobre o valor
 		JLabel lblQualOValor = new JLabel("Qual o valor ?");
 		lblQualOValor.setBounds(10, 300, 71, 14);
 		contentPane.add(lblQualOValor);
@@ -194,15 +219,17 @@ public class ManterCliente extends JFrame {
 		//valor do EMPREST JÁ realizado
 		boxValorEmprest = new JTextField();
 		boxValorEmprest.setText("000.00");
-		if(cliente.getEmprestFeito() == false) {
-			boxValorEmprest.setEditable(false);
-		}else{
-			boxValorEmprest.setEditable(true);		
-		}		
 		boxValorEmprest.setBounds(96, 297, 137, 20);
 		contentPane.add(boxValorEmprest);
 		boxValorEmprest.setColumns(10);
-		cliente.setEmp_feito(Double.parseDouble(boxValorEmprest.getText()));
+		if(cliente.getEmprestFeito() == "Não") {
+			boxValorEmprest.setEditable(false);
+		}else{
+			boxValorEmprest.setEditable(true);
+			cliente.setEmp_feito(Double.parseDouble(boxValorEmprest.getText()));
+		}		
+		
+		
 		
 		//botão SALVAR
 		JButton btnCadastrarCli = new JButton("Cadastrar");
@@ -210,7 +237,7 @@ public class ManterCliente extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				cliente.setCpf(boxCpf.getText());
 				cliente.setNome(boxNome.getText());				
-				cliente.setCategoria(boxCategoria.getText());					
+				cliente.setCategoria((String) boxCategoria.getSelectedItem());					
 				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
 				cliente.setSal30(Double.parseDouble(boxMargem.getText()));
 				
@@ -219,7 +246,7 @@ public class ManterCliente extends JFrame {
 				boxCpf.setText("");
 				boxNome.setText("");
 				boxSal_liq.setText("");
-				boxCategoria.setText("");
+				boxCategoria.setSelectedItem("");
 				boxMargem.setText("");
 			}
 		});
@@ -235,7 +262,7 @@ public class ManterCliente extends JFrame {
 				boxCpf.setText("");
 				boxNome.setText("");
 				boxSal_liq.setText("");
-				boxCategoria.setText("");
+				boxCategoria.setSelectedItem("");
 				boxMargem.setText("");
 			}
 		});
@@ -248,7 +275,7 @@ public class ManterCliente extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				cliente.setCpf(boxCpf.getText());
 				cliente.setNome(boxNome.getText());				
-				cliente.setCategoria(boxCategoria.getText());				
+				cliente.setCategoria((String) boxCategoria.getSelectedItem());				
 				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
 				cliente.setSal30(Double.parseDouble(boxMargem.getText()));
 				
@@ -257,24 +284,12 @@ public class ManterCliente extends JFrame {
 				boxCpf.setText("");
 				boxNome.setText("");
 				boxSal_liq.setText("");
-				boxCategoria.setText("");
+				boxCategoria.setSelectedItem("");
 				boxMargem.setText("");
 			}
 		});
 		btnAlterarCli.setBounds(275, 328, 89, 23);
 		contentPane.add(btnAlterarCli);
-		
-		//botão Listar Clientes
-		JButton btnListCli = new JButton("Listar Clientes");
-		btnListCli.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ListarClientes listCli = new ListarClientes();
-				listCli.setVisible(true);
-			}
-		});
-		btnListCli.setBounds(381, 73, 229, 23);
-		contentPane.add(btnListCli);
-		
-		
+				
 	}
 }

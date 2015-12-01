@@ -9,8 +9,8 @@ public class Cliente {
 	private String categoria;
 	private static double sal_liq;
 	private double sal30;
-	private boolean emprestFeito;
-	private double emp_feito;	
+	private String emprestFeito;
+	private double vl_emp_feito;	
 		
 	
 	
@@ -30,11 +30,11 @@ public class Cliente {
 		sal30 = sal_liq * 0.3;
 		this.sal30 = sal30;
 	}
-	public void setEmprestFeito(boolean emprestFeito) {
+	public void setEmprestFeito(String emprestFeito) {
 		this.emprestFeito = emprestFeito;
 	}
 	public void setEmp_feito(double emp_feito) {
-		this.emp_feito = emp_feito;
+		this.vl_emp_feito = emp_feito;
 	}	
 	
 	
@@ -53,11 +53,11 @@ public class Cliente {
 	public double getSal30() {
 		return sal30;
 	}
-	public boolean getEmprestFeito() {
+	public String getEmprestFeito() {
 		return emprestFeito;
 	}
 	public double getEmp_feito() {
-		return emp_feito;
+		return vl_emp_feito;
 	}
 	
 	@Override
