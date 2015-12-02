@@ -12,17 +12,21 @@ import br.com.cadastro.modelo.ClienteDAO;
 import br.com.cadastro.modelo.Emprestimo;
 
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
-import javax.swing.JTable;
 import javax.swing.JSeparator;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class ManterEmprest extends JFrame {
-
+	
+	private static final long serialVersionUID = 1L;
+	
 	private JPanel contentPane;
 	private JTextField boxNomecli;
 	private JTextField boxCpfcli;
@@ -173,8 +177,32 @@ public class ManterEmprest extends JFrame {
 		contentPane.add(lblQuantidadeDeParcelas);
 		
 		//combo box de quantidade de PARCELAS
-		JComboBox comboBoxQtdeParcelas = new JComboBox();
-		comboBoxQtdeParcelas.setModel(new DefaultComboBoxModel(new String[] {"6", "12", "24", "36", "48", "56"}));
+		JComboBox<String> comboBoxQtdeParcelas = new JComboBox<String>();
+		comboBoxQtdeParcelas.setModel(new DefaultComboBoxModel<String>(new String[] {"6", "12", "24", "36", "48", "60"}));
+		comboBoxQtdeParcelas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String mes =  comboBoxQtdeParcelas.getSelectedItem().toString();
+				
+				if(mes.equals("6")){
+					emprest.setQtde_parcela(6);
+				}
+				else if(mes.equals("12")){
+					emprest.setQtde_parcela(12);
+				}
+				else if(mes.equals("24")){
+					emprest.setQtde_parcela(24);
+				}
+				else if(mes.equals("36")){
+					emprest.setQtde_parcela(36);
+				}
+				else if(mes.equals("48")){
+					emprest.setQtde_parcela(48);
+				}
+				else if(mes.equals("60")){
+					emprest.setQtde_parcela(60);
+				}
+			}
+		});
 		comboBoxQtdeParcelas.setBounds(182, 234, 164, 20);
 		contentPane.add(comboBoxQtdeParcelas);
 		
@@ -192,9 +220,24 @@ public class ManterEmprest extends JFrame {
 		contentPane.add(lblQualTipoDe);
 				
 		//combo box de escolha entre Sac e Price 
-		JComboBox comboBoxSacOuPrice = new JComboBox();
-		comboBoxSacOuPrice.setModel(new DefaultComboBoxModel(new String[] {"Sac", "Price"}));
+		JComboBox<String> comboBoxSacOuPrice = new JComboBox<String>();
+		comboBoxSacOuPrice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String tipoEmprestimo =  comboBoxSacOuPrice.getSelectedItem().toString();
+				
+				if(tipoEmprestimo.equals("Sac")){
+					emprest.setTpTab("Sac");
+				}
+				else{
+					if(tipoEmprestimo.equals("Price")){
+						emprest.setTpTab("Price");
+					}
+				}
+			}
+		});
 		comboBoxSacOuPrice.setBounds(489, 234, 137, 20);
+		comboBoxSacOuPrice.addItem("Sac");
+		comboBoxSacOuPrice.addItem("Price");
 		contentPane.add(comboBoxSacOuPrice);
 			
 		
@@ -204,23 +247,27 @@ public class ManterEmprest extends JFrame {
 				cli.setNome(boxNomecli.getText());
 				cli.setCpf(boxCpfcli.getText());
 				cli.setCategoria(boxCatcli.getText());
-				cli.setSal_liq(Double.parseDouble(boxSalcli.getText()));
-				cli.setSal30(Double.parseDouble(boxMargemcli.getText()));
+				cli.setSal_liq(Float.parseFloat(boxSalcli.getText()));
+				cli.setSal30(Float.parseFloat(boxMargemcli.getText()));
 				
 				emprest.setVl_emprest(Double.parseDouble(boxValorEmprest.getText()));									
-				emprest.setQtde_parcela(Integer.parseInt((String) (comboBoxQtdeParcelas.getSelectedItem())));					
-				emprest.setTpTab((String) comboBoxSacOuPrice.getSelectedItem());
+				emprest.setQtde_parcela(Integer.parseInt((String)(comboBoxQtdeParcelas.getSelectedItem())));					
+				emprest.setTpTab((String) comboBoxSacOuPrice.getSelectedItem());				
 				
 				emprestControl.setSalDev(Double.parseDouble(boxValorEmprest.getText()));
 				emprestControl.setNumParcela(Integer.parseInt((String) comboBoxQtdeParcelas.getSelectedItem()));
 					
 				if (comboBoxSacOuPrice.getSelectedItem() == "Sac"){
-					Sac sac = new Sac();
+				
+					Sac sac = new Sac(emprest);
 					sac.setVisible(true);
+					sac.setValTableSAC();
 				}else{
 					if(comboBoxSacOuPrice.getSelectedItem() == "Price"){
-						Price price = new Price();
+						
+						Price price = new Price(emprest);
 						price.setVisible(true);
+						price.setValTablePrice();
 					}
 				}
 			}

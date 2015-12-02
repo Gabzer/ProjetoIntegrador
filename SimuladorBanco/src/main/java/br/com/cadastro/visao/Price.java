@@ -24,11 +24,18 @@ public class Price extends JFrame {
 	/**
 	 * Launch the application.
 	 */
+	
+
+	/**
+	 * Create the frame.
+	 */
+	static Emprestimo emprest = new Emprestimo();
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Price frame = new Price();
+					Price frame = new Price(emprest);
 					frame.setVisible(true);					
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,11 +43,8 @@ public class Price extends JFrame {
 			}
 		});
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Price() {
+	
+	public Price(Emprestimo emprest) {
 		setTitle("Tabela Price");
 		
 		setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -62,12 +66,13 @@ public class Price extends JFrame {
         
         JScrollPane scrollPane = new JScrollPane(jTablePrice);
 	    add(scrollPane, BorderLayout.CENTER);
+	    this.emprest = emprest;
 	}
 	//Instanciando os objetos
 		EmprestControl emprestControl 	= new EmprestControl();
 		NumberFormat x 		= NumberFormat.getCurrencyInstance();
 		Cliente cliente 	= new Cliente();
-		Emprestimo emprest = new Emprestimo();
+		
 		
 		//Variáveis
 		private float salDevAttPrice;
@@ -119,7 +124,7 @@ public class Price extends JFrame {
 	        	JOptionPane.showMessageDialog(null, "Emprestimo Autorizado");
 	        }
 	        else{
-	        	JOptionPane.showMessageDialog(null, "O emprestimo não será autorizado, pois a parcela é maior ou equivalente a 30% da reda liquida do cliente!");        	
+	        	JOptionPane.showMessageDialog(null, "O emprestimo não será autorizado, pois a parcela é maior ou equivalente a 30% da renda liquida do cliente!");        	
 	        }
 
 	    }

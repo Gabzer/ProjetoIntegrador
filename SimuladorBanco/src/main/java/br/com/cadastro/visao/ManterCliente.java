@@ -21,6 +21,8 @@ import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 
 public class ManterCliente extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 
 	private JPanel contentPane;
 	private JTextField boxNome;
@@ -170,7 +172,7 @@ public class ManterCliente extends JFrame {
 		boxSal_liq = new JTextField();		
 		boxSal_liq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
+				cliente.setSal_liq(Float.parseFloat(boxSal_liq.getText()));
 			}
 		});
 		boxSal_liq.setBounds(96, 197, 137, 20);
@@ -226,7 +228,7 @@ public class ManterCliente extends JFrame {
 			boxValorEmprest.setEditable(false);
 		}else{
 			boxValorEmprest.setEditable(true);
-			cliente.setEmp_feito(Double.parseDouble(boxValorEmprest.getText()));
+			cliente.setEmp_feito(Float.parseFloat(boxValorEmprest.getText()));
 		}		
 		
 		
@@ -238,8 +240,8 @@ public class ManterCliente extends JFrame {
 				cliente.setCpf(boxCpf.getText());
 				cliente.setNome(boxNome.getText());				
 				cliente.setCategoria((String) boxCategoria.getSelectedItem());					
-				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
-				cliente.setSal30(Double.parseDouble(boxMargem.getText()));
+				cliente.setSal_liq(Float.parseFloat(boxSal_liq.getText()));
+				cliente.setSal30(Float.parseFloat(boxMargem.getText()));
 				
 				cliDao.insert(cliente);
 				
@@ -276,8 +278,8 @@ public class ManterCliente extends JFrame {
 				cliente.setCpf(boxCpf.getText());
 				cliente.setNome(boxNome.getText());				
 				cliente.setCategoria((String) boxCategoria.getSelectedItem());				
-				cliente.setSal_liq(Double.parseDouble(boxSal_liq.getText()));
-				cliente.setSal30(Double.parseDouble(boxMargem.getText()));
+				cliente.setSal_liq(Float.parseFloat(boxSal_liq.getText()));
+				cliente.setSal30(Float.parseFloat(boxMargem.getText()));
 				
 				cliDao.updateByCpf(cliente);
 				

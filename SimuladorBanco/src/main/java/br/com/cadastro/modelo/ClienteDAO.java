@@ -25,8 +25,8 @@ public class ClienteDAO {
 			ps.setString(1, cliente.getCpf());
 			ps.setString(2, cliente.getNome());
 			ps.setString(3, cliente.getCategoria());
-			ps.setDouble(4, cliente.getSal_liq());
-			ps.setDouble(5, cliente.getSal30());
+			ps.setFloat(4, cliente.getSal_liq());
+			ps.setFloat(5, cliente.getSal30());
 			ps.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !!!");
 		}catch(Exception ex){
@@ -54,8 +54,8 @@ public class ClienteDAO {
 				cli.setCpf(rs.getString("cpf"));
 				cli.setNome(rs.getString("nome"));
 				cli.setCategoria(rs.getString("categoria"));
-				cli.setSal_liq(rs.getDouble("sal_liq"));
-				cli.setSal30(rs.getDouble("margem"));
+				cli.setSal_liq(rs.getFloat("sal_liq"));
+				cli.setSal30(rs.getFloat("margem"));
 				lsClis.add(cli);				
 			}
 		}catch(Exception ex){
@@ -85,8 +85,8 @@ public class ClienteDAO {
 				cli.setCpf(rs.getString("cpf"));
 				cli.setNome(rs.getString("nome"));
 				cli.setCategoria(rs.getString("categoria"));
-				cli.setSal_liq(rs.getDouble("sal_liq"));
-				cli.setSal30(rs.getDouble("margem"));
+				cli.setSal_liq(rs.getFloat("sal_liq"));
+				cli.setSal30(rs.getFloat("margem"));
 				lsClientes = cli.toString();
 			}
 		}catch(Exception ex){
@@ -115,8 +115,8 @@ public class ClienteDAO {
 				cli.setCpf(rs.getString("cpf"));
 				cli.setNome(rs.getString("nome"));
 				cli.setCategoria(rs.getString("categoria"));
-				cli.setSal_liq(rs.getDouble("sal_liq"));
-				cli.setSal30(rs.getDouble("margem"));
+				cli.setSal_liq(rs.getFloat("sal_liq"));
+				cli.setSal30(rs.getFloat("margem"));
 				lsClientes = cli.toString();
 			}
 		}catch(Exception ex){

@@ -1,16 +1,15 @@
 package br.com.cadastro.modelo;
 
-import br.com.cadastro.controle.ClienteControl;
 
 public class Cliente {
 	
 	private String cpf;
 	private String nome;
 	private String categoria;
-	private static double sal_liq;
-	private double sal30;
+	private static float sal_liq;
+	private float sal30;
 	private String emprestFeito;
-	private double vl_emp_feito;	
+	private static float vl_emp_feito;	
 		
 	
 	
@@ -23,17 +22,17 @@ public class Cliente {
 	public void setCategoria(String categoria) {
 		this.categoria = categoria;
 	}
-	public void setSal_liq(double sal_liq) {
+	public void setSal_liq(float sal_liq) {
 		this.sal_liq = sal_liq;
 	}
-	public void setSal30(double sal30) {
-		sal30 = sal_liq * 0.3;
+	public void setSal30(float sal30) {
+		sal30 = (float)(sal_liq * 0.3);
 		this.sal30 = sal30;
 	}
 	public void setEmprestFeito(String emprestFeito) {
 		this.emprestFeito = emprestFeito;
 	}
-	public void setEmp_feito(double emp_feito) {
+	public void setEmp_feito(float emp_feito) {
 		this.vl_emp_feito = emp_feito;
 	}	
 	
@@ -47,16 +46,16 @@ public class Cliente {
 	public String getCategoria() {
 		return categoria;
 	}
-	public static double getSal_liq() {
+	public static float getSal_liq() {
 		return sal_liq;
 	}
-	public double getSal30() {
+	public float getSal30() {
 		return sal30;
 	}
 	public String getEmprestFeito() {
 		return emprestFeito;
 	}
-	public double getEmp_feito() {
+	public float getEmp_feito() {
 		return vl_emp_feito;
 	}
 	
