@@ -1,18 +1,14 @@
 package br.com.cadastro.visao;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.BoxLayout;
 import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;

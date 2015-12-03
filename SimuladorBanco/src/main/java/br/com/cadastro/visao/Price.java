@@ -114,7 +114,7 @@ public class Price extends JFrame {
 
 	            }
 	        }
-
+	        
 	        jTablePrice.setModel(new DefaultTableModel((Object[][]) valor, nomeCol));
 	        
 	        rendaCliente =  EmprestControl.comparaSalario(Cliente.getSal_liq());

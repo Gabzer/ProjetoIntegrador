@@ -4,6 +4,8 @@ public class Emprestimo {
 	private double vl_emprest;
 	private int qtde_parcela;
 	private String tpTab;
+	private double pmt;
+	private int id;
 	
 	
 	public double getVl_emprest() {
@@ -23,6 +25,18 @@ public class Emprestimo {
 	}
 	public void setTpTab(String tpTab) {
 		this.tpTab = tpTab;
+	}
+	public double getPmt() {
+		return pmt;
+	}
+	public void setPmt(double pmt) {
+		this.pmt = pmt;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 
 }

@@ -7,13 +7,19 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.cadastro.controle.EmprestControl;
+import br.com.cadastro.modelo.Cli_EmprestDAO;
 import br.com.cadastro.modelo.Cliente;
 import br.com.cadastro.modelo.ClienteDAO;
+import br.com.cadastro.modelo.EmprestDAO;
 import br.com.cadastro.modelo.Emprestimo;
+import br.com.cadastro.util.ConnectionFactory;
 
 import javax.swing.JButton;
 
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JLabel;
@@ -34,6 +40,7 @@ public class ManterEmprest extends JFrame {
 	private JTextField boxSalcli;
 	private JTextField boxMargemcli;
 	private JTextField boxValorEmprest;
+	private JTextField boxId;
 
 	/**
 	 * Launch the application.
@@ -274,6 +281,57 @@ public class ManterEmprest extends JFrame {
 		});		
 		btnSimular.setBounds(281, 285, 127, 31);
 		contentPane.add(btnSimular);
+				
+		//btn SALVAR
+		EmprestDAO emprestDao = new EmprestDAO();
+		Cli_EmprestDAO cliEmpDao = new Cli_EmprestDAO();
+		JButton btnSalvar = new JButton("Salvar");
+		btnSalvar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				emprest.setId(Integer.parseInt(boxId.getText()));
+				emprest.setVl_emprest(Double.parseDouble(boxValorEmprest.getText()));
+				emprest.setQtde_parcela(Integer.parseInt((String) comboBoxQtdeParcelas.getSelectedItem()));
+				if(comboBoxSacOuPrice.getSelectedItem() == "Sac"){
+					emprest.setPmt(emprestControl.calcAmortSac(Integer.parseInt((String) comboBoxQtdeParcelas.getSelectedItem()), Double.parseDouble(boxValorEmprest.getText())));
+				}else{
+					if(comboBoxSacOuPrice.getSelectedItem() == "Price"){
+						emprest.setPmt(emprestControl.calcPricePMT(Double.parseDouble(boxValorEmprest.getText()), emprestControl.getJuros(), emprestControl.getMes()));
+					}
+				}
+				
+				JOptionPane.showMessageDialog(null, emprest.getId());
+				emprestDao.insertEmprest(emprest);				
+				cliEmpDao.insertCliEmprest(cli, emprest);
+				
+				boxNomecli.setText("");
+				boxCpfcli.setText("");
+				boxSalcli.setText("");
+				boxMargemcli.setText("0");
+				boxValorEmprest.setText("");
+			}
+		});
+		btnSalvar.setBounds(489, 285, 137, 31);
+		contentPane.add(btnSalvar);
+		
+		boxId = new JTextField();
+		boxId.setText("00");
+		boxId.setBounds(57, 290, 86, 20);
+		contentPane.add(boxId);
+		boxId.setColumns(10);
+		
+		JLabel lblId = new JLabel("Id:");
+		lblId.setBounds(27, 293, 46, 14);
+		contentPane.add(lblId);
+		
+		JButton btnHistricoDeEmprstimos = new JButton("Histórico de Empréstimos");
+		btnHistricoDeEmprstimos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Cli_EmprestDAO cliEd = new Cli_EmprestDAO();
+				JOptionPane.showMessageDialog(null, cliEd.selectAllCliEmprest());
+			}
+		});
+		btnHistricoDeEmprstimos.setBounds(462, 365, 198, 23);
+		contentPane.add(btnHistricoDeEmprstimos);
 		
 	}	
 }

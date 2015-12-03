@@ -9,7 +9,7 @@ public class Cliente {
 	private static float sal_liq;
 	private float sal30;
 	private String emprestFeito;
-	private static float vl_emp_feito;	
+	private static float vl_emp_feito = 0;	
 		
 	
 	

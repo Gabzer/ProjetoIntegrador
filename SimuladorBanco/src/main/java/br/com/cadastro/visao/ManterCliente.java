@@ -186,6 +186,7 @@ public class ManterCliente extends JFrame {
 		
 		//caixa de texto não editável da Margem
 		boxMargem = new JTextField();
+		boxMargem.setText("0");
 		boxMargem.addPropertyChangeListener(new PropertyChangeListener() {
 			public void propertyChange(PropertyChangeEvent arg0) {
 				boxMargem.setText("" + cliente.getSal30());
@@ -242,6 +243,9 @@ public class ManterCliente extends JFrame {
 				cliente.setCategoria((String) boxCategoria.getSelectedItem());					
 				cliente.setSal_liq(Float.parseFloat(boxSal_liq.getText()));
 				cliente.setSal30(Float.parseFloat(boxMargem.getText()));
+				if (comboBoxSouN.getSelectedItem() == "Sim"){
+					cliente.setEmp_feito(Float.parseFloat(boxValorEmprest.getText()));
+				}
 				
 				cliDao.insert(cliente);
 				
@@ -249,7 +253,7 @@ public class ManterCliente extends JFrame {
 				boxNome.setText("");
 				boxSal_liq.setText("");
 				boxCategoria.setSelectedItem("");
-				boxMargem.setText("");
+				boxMargem.setText("0");
 			}
 		});
 		btnCadastrarCli.setBounds(162, 328, 101, 23);

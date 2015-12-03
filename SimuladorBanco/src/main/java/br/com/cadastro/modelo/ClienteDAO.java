@@ -17,8 +17,8 @@ public class ClienteDAO {
 		Connection connection = null;
 		PreparedStatement ps = null;
 		
-		String sql = "INSERT INTO cliente (cpf, nome, categoria, sal_liq, margem) "
-                  + "VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO cliente (cpf, nome, categoria, sal_liq, margem, emprest_feito) "
+                  + "VALUES (?, ?, ?, ?, ?, ?)";
 		try {
 			connection = ConnectionFactory.getConnection();
 			ps = connection.prepareStatement(sql);
@@ -27,6 +27,7 @@ public class ClienteDAO {
 			ps.setString(3, cliente.getCategoria());
 			ps.setFloat(4, cliente.getSal_liq());
 			ps.setFloat(5, cliente.getSal30());
+			ps.setFloat(6, cliente.getEmp_feito());
 			ps.executeUpdate();
 			JOptionPane.showMessageDialog(null, "Cadastrado com sucesso !!!");
 		}catch(Exception ex){
