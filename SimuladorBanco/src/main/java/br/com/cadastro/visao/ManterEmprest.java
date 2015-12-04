@@ -7,6 +7,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import br.com.cadastro.controle.EmprestControl;
+import br.com.cadastro.modelo.Cli_Emprest;
 import br.com.cadastro.modelo.Cli_EmprestDAO;
 import br.com.cadastro.modelo.Cliente;
 import br.com.cadastro.modelo.ClienteDAO;
@@ -327,7 +328,8 @@ public class ManterEmprest extends JFrame {
 		btnHistricoDeEmprstimos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Cli_EmprestDAO cliEd = new Cli_EmprestDAO();
-				JOptionPane.showMessageDialog(null, cliEd.selectAllCliEmprest());
+				Cli_Emprest cliEm = new Cli_Emprest();
+				System.out.println(cliEd.selectAllCliEmprest(cliEm));
 			}
 		});
 		btnHistricoDeEmprstimos.setBounds(462, 365, 198, 23);

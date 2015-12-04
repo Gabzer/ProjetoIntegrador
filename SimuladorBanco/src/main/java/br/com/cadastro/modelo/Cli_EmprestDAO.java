@@ -33,7 +33,7 @@ public class Cli_EmprestDAO {
 		}
 		
 		//lista o histórico de empréstimos
-		public List<Cli_Emprest> selectAllCliEmprest(){
+		public List<Cli_Emprest> selectAllCliEmprest(Cli_Emprest cliEmp){
 			List<Cli_Emprest> lsClis = null;
 			Connection connection = null;
 			PreparedStatement ps = null;
@@ -44,13 +44,12 @@ public class Cli_EmprestDAO {
 				ps = connection.prepareStatement(sql);
 				rs = ps.executeQuery();
 				lsClis = new ArrayList<Cli_Emprest>();
-				Cli_Emprest cliEmp = new Cli_Emprest();
 				while (rs.next()){
 					cliEmp.setNome(rs.getString("nome"));
 					cliEmp.setVl_emprest(rs.getDouble("valor_emprest"));
 					cliEmp.setQtde_parc(rs.getInt("qtde_parc"));
 					cliEmp.setVl_parc(rs.getDouble("vl_parc"));
-					lsClis.add(cliEmp);	
+					lsClis.add(cliEmp);
 				}
 			}catch(Exception ex){
 				System.err.println("Erro no selectAllCliEmprest");
@@ -62,7 +61,7 @@ public class Cli_EmprestDAO {
 			return lsClis;
 		}
 
-		private Cli_EmprestDAO toString(Cliente cli, Emprestimo emprest) {
+		private Cli_EmprestDAO toString(List<Cli_Emprest> lsClis) {
 			// TODO Auto-generated method stub
 			return null;
 		}
